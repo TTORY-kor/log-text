@@ -68,10 +68,21 @@ main{overflow:auto;padding:24px}
 .page.fixed{display:flex;flex-direction:column;overflow:hidden}
 .page.fixed .pb{flex:1 1 auto}
 .page.fixed.vc .pb{display:flex;flex-direction:column;justify-content:center}
-.page .ph{padding-bottom:1em;margin-bottom:1.4em;border-bottom:1px solid var(--line);text-align:left}
-.page.noline .ph{border-bottom:0;padding-bottom:0;margin-bottom:1.9em}
-.page .pt{font-size:var(--tfs);font-weight:700;line-height:1.4}
+.page .ph{margin-bottom:var(--tgap);text-align:var(--talign);display:flex;flex-direction:column;align-items:var(--tflex)}
+.page.sub-top .ph{flex-direction:column-reverse}
+.page .pt{font-size:var(--tfs);font-weight:var(--tw);line-height:1.4}
 .page .ps{color:var(--sub);font-size:.82em;margin-top:.35em}
+.page.sub-top .ps{margin:0 0 .35em}
+.page.ts-line .ph{padding-bottom:.9em;border-bottom:1px solid var(--line)}
+.page.ts-both .ph{padding:.9em 0;border-top:1px solid var(--fg);border-bottom:1px solid var(--fg)}
+.page.ts-short .ph::after{content:'';display:block;width:2.2em;border-top:2px solid var(--fg);margin-top:.9em;order:9}
+.page.sub-top.ts-short .ph::after{order:-9}
+.page.ts-bar .ph{padding-left:.9em;border-left:4px solid var(--fg)}
+.page.ts-bar.ta-right .ph{padding-left:0;border-left:0;padding-right:.9em;border-right:4px solid var(--fg)}
+.page.ts-bracket .pt::before{content:'「'}
+.page.ts-bracket .pt::after{content:'」'}
+.page.ts-dash .pt::before{content:'— '}
+.page .b.ind{text-indent:var(--ind)}
 .page .pb{position:relative}
 .page .b{padding-bottom:var(--bgap)}
 .page .b.cut{text-align-last:justify}
@@ -88,7 +99,7 @@ main{overflow:auto;padding:24px}
 .page .talk.bar{border-left:3px solid var(--c);padding-left:.8em;margin-bottom:var(--bgap);padding-bottom:0}
 .page .talk.bar .nm{display:block;font-size:.85em}
 .page .pf{display:flex;gap:1em;margin-top:1.4em;padding-top:.8em;border-top:1px solid var(--line);color:var(--sub);font-size:.75em}
-.page.noline .pf{border-top:0}
+.page:not(.ts-line):not(.ts-both) .pf{border-top:0}
 .page .pf .pn{margin-left:auto}
 </style>
 </head>
@@ -175,17 +186,46 @@ main{overflow:auto;padding:24px}
         <label>흐림 <input type="color" data-k="sub"></label>
       </div>
       <label class="f"><span>글자 크기 <b data-v="fs"></b></span><input type="range" min="12" max="40" step="1" data-k="fs"></label>
-      <label class="f"><span>제목 크기 <b data-v="tfs"></b></span><input type="range" min="1" max="2.5" step="0.05" data-k="tfs"></label>
       <label class="f"><span>줄 간격 <b data-v="lh"></b></span><input type="range" min="1.2" max="3" step="0.05" data-k="lh"></label>
       <label class="f"><span>자간 (글자 사이) <b data-v="ls"></b></span><input type="range" min="-0.1" max="0.3" step="0.01" data-k="ls"></label>
       <label class="f"><span>어간 (단어 사이) <b data-v="ws"></b></span><input type="range" min="-0.2" max="0.8" step="0.02" data-k="ws"></label>
-      <label class="f"><span>문단 간격 <b data-v="pgap"></b></span><input type="range" min="0" max="3" step="0.1" data-k="pgap"></label>
       <label class="f"><span>줄 사이 여백 <b data-v="bgap"></b></span><input type="range" min="0" max="1.5" step="0.05" data-k="bgap"></label>
       <label class="f"><span>정렬</span></label>
       <div class="seg" id="alignSeg">
         <button data-align="justify">양쪽 정렬</button><button data-align="left">왼쪽</button><button data-align="center">가운데</button>
       </div>
-      <label class="chk"><input type="checkbox" data-k="titleLine"> 제목 아래 구분선</label>
+    </div>
+
+    <div class="sec">
+      <h2>문단</h2>
+      <label class="f"><span>첫 줄 들여쓰기 <b data-v="ind"></b></span><input type="range" min="0" max="4" step="0.25" data-k="ind"></label>
+      <label class="f"><span>짧은 문단 제외 — <b id="indMinLabel"></b></span><input type="range" min="0" max="120" step="5" data-k="indentMin"></label>
+      <label class="chk"><input type="checkbox" data-k="indentSkipFirst"> 첫 문단은 들여쓰기 안 함</label>
+      <label class="f"><span>문단 간격 <b data-v="pgap"></b></span><input type="range" min="0" max="3" step="0.1" data-k="pgap"></label>
+    </div>
+
+    <div class="sec">
+      <h2>제목</h2>
+      <div class="seg">
+        <button data-talign="left">왼쪽</button><button data-talign="center">가운데</button><button data-talign="right">오른쪽</button>
+      </div>
+      <div class="row">
+        <label class="f"><span>제목 모양</span>
+          <select data-k="titleStyle">
+            <option value="plain">기본</option>
+            <option value="line">아래 얇은 선</option>
+            <option value="short">아래 짧은 선</option>
+            <option value="both">위아래 선</option>
+            <option value="bar">옆 세로 막대</option>
+            <option value="bracket">「낫표」</option>
+            <option value="dash">— 줄표</option>
+          </select></label>
+        <label class="f"><span>굵기</span>
+          <select data-k="tw"><option value="700">굵게</option><option value="400">보통</option></select></label>
+      </div>
+      <label class="f"><span>제목 크기 <b data-v="tfs"></b></span><input type="range" min="0.8" max="2.5" step="0.05" data-k="tfs"></label>
+      <label class="f"><span>제목 아래 간격 <b data-v="tgap"></b></span><input type="range" min="0.3" max="6" step="0.1" data-k="tgap"></label>
+      <label class="chk"><input type="checkbox" data-k="subTop"> 부제를 제목 위에</label>
     </div>
 
     <div class="sec">
@@ -246,18 +286,23 @@ const CHAT_SAMPLE=`하루: 오늘 영화 어땠어?
 하루: **조금**이 아니던데. 휴지 세 장 썼잖아.
 유진: 그건 비밀로 해 줘.`;
 const PRESETS={
-  a4:{theme:'essay',font:FONT_HUMAN,fs:23,tfs:1.4,lh:1.9,ls:0,ws:0,pgap:1.4,bgap:0,align:'justify',dialogue:false,width:1240,ratio:'A4',padX:150,padY:170,vcenter:false,titleLine:false,pageNum:true,scale:1},
-  a4l:{theme:'essay',font:FONT_HUMAN,fs:21,tfs:1.45,lh:2,ls:0,ws:0,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1754,ratio:'A4L',padX:230,padY:150,vcenter:false,titleLine:false,pageNum:false,scale:1},
-  essay43:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:21,tfs:1.45,lh:2.05,pgap:1.6,bgap:0,align:'justify',dialogue:false,width:1440,ratio:'4:3',padX:225,padY:150,vcenter:false,titleLine:false,pageNum:false,scale:1},
-  essay11:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:21,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1200,ratio:'1:1',padX:150,padY:140,vcenter:false,titleLine:false,pageNum:false,scale:1},
-  essay34:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:22,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1080,ratio:'3:4',padX:120,padY:140,vcenter:false,titleLine:false,pageNum:true,scale:1},
-  chat:{theme:'paper',font:"'Pretendard',sans-serif",fs:17,tfs:1.45,lh:1.75,pgap:0.9,bgap:0.35,align:'left',dialogue:true,width:800,ratio:'free',maxH:1600,padX:56,padY:56,vcenter:false,titleLine:true,pageNum:true,scale:2}
+  a4:{theme:'essay',font:FONT_HUMAN,fs:23,tfs:1.4,lh:1.9,ls:0,ws:0,pgap:1.4,bgap:0,align:'justify',dialogue:false,width:1240,ratio:'A4',padX:150,padY:170,vcenter:false,titleStyle:'plain',pageNum:true,scale:1},
+  a4l:{theme:'essay',font:FONT_HUMAN,fs:21,tfs:1.45,lh:2,ls:0,ws:0,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1754,ratio:'A4L',padX:230,padY:150,vcenter:false,titleStyle:'plain',pageNum:false,scale:1},
+  essay43:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:21,tfs:1.45,lh:2.05,pgap:1.6,bgap:0,align:'justify',dialogue:false,width:1440,ratio:'4:3',padX:225,padY:150,vcenter:false,titleStyle:'plain',pageNum:false,scale:1},
+  essay11:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:21,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1200,ratio:'1:1',padX:150,padY:140,vcenter:false,titleStyle:'plain',pageNum:false,scale:1},
+  essay34:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:22,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1080,ratio:'3:4',padX:120,padY:140,vcenter:false,titleStyle:'plain',pageNum:true,scale:1},
+  chat:{theme:'paper',font:"'Pretendard',sans-serif",fs:17,tfs:1.45,lh:1.75,pgap:0.9,bgap:0.35,align:'left',dialogue:true,width:800,ratio:'free',maxH:1600,padX:56,padY:56,vcenter:false,titleStyle:'line',pageNum:true,scale:2}
 };
-const DEFAULTS=Object.assign({title:'빛이 늦게 도착하는 방',subtitle:'',text:ESSAY_SAMPLE,talkStyle:'side',maxH:1600,sign:'',titleEvery:false,colors:{},ls:0,ws:0},PRESETS.essay43);
+const DEFAULTS=Object.assign({title:'빛이 늦게 도착하는 방',subtitle:'',text:ESSAY_SAMPLE,talkStyle:'side',maxH:1600,sign:'',titleEvery:false,colors:{},ls:0,ws:0,ind:0,indentMin:20,indentSkipFirst:false,talign:'left',tw:'700',tgap:1.9,subTop:false},PRESETS.essay43);
 ['bg','fg','sub'].forEach(k=>DEFAULTS[k]=THEMES[DEFAULTS.theme][k]);
 const KEY='logimg:v2';
 let S;
-try{S=Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){S={...DEFAULTS}}
+try{
+  const saved=JSON.parse(localStorage.getItem(KEY)||'{}');
+  if(saved.titleLine!=null&&!saved.titleStyle){saved.titleStyle=saved.titleLine?'line':'plain'}
+  delete saved.titleLine;
+  S=Object.assign({},DEFAULTS,saved);
+}catch(e){S={...DEFAULTS}}
 S.colors=S.colors||{};
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const $=s=>document.querySelector(s);
@@ -285,7 +330,7 @@ function parse(text){
         out.push({type:'talk',name,text:m[2]});continue;
       }
     }
-    out.push({type:'para',text:line});
+    out.push({type:'para',text:line,len:plainLen(line),first:!out.some(b=>b.type==='para')});
   }
   while(out.length&&out[out.length-1].type==='gap')out.pop();
   return {blocks:out,names};
@@ -294,8 +339,12 @@ function colorOf(name,names){
   const pal=THEMES[S.theme].pal;
   return S.colors[name]||pal[names.indexOf(name)%pal.length];
 }
+const plainLen=s=>s.replace(/\(\(|\)\)|\*\*|~~|\s/g,'').length;
+function indented(b){
+  return b.type==='para'&&S.ind>0&&!b.cont&&b.len>=(S.indentMin||0)&&!(S.indentSkipFirst&&b.first);
+}
 function blockHTML(b,names){
-  const cut=b.cut&&S.align==='justify'?' cut':'';
+  const cut=(b.cut&&S.align==='justify'?' cut':'')+(indented(b)?' ind':'');
   switch(b.type){
     case 'gap':return '<div class="gap"></div>';
     case 'hr':return '<div class="hr"></div>';
@@ -317,14 +366,14 @@ function balance(a,b){
 const fixedH=()=>S.ratio!=='free'&&RATIOS[S.ratio]?Math.round(S.width*RATIOS[S.ratio][1]/RATIOS[S.ratio][0]):0;
 function pageStyle(nmw,withH){
   const t=THEMES[S.theme]||THEMES.essay;const h=fixedH();
-  return `width:${S.width}px;${withH&&h?`height:${h}px;`:''}--bg:${S.bg};--fg:${S.fg};--sub:${S.sub};--line:${t.line};--font:${S.font};--fs:${S.fs}px;--tfs:${S.tfs}em;--lh:${S.lh};--ls:${S.ls||0}em;--ws:${S.ws||0}em;--px:${S.padX}px;--py:${S.padY}px;--bgap:${S.bgap}em;--pgap:${S.pgap}em;--align:${S.align};--nmw:${nmw}px`;
+  return `width:${S.width}px;${withH&&h?`height:${h}px;`:''}--bg:${S.bg};--fg:${S.fg};--sub:${S.sub};--line:${t.line};--font:${S.font};--fs:${S.fs}px;--tfs:${S.tfs}em;--lh:${S.lh};--ls:${S.ls||0}em;--ws:${S.ws||0}em;--px:${S.padX}px;--py:${S.padY}px;--bgap:${S.bgap}em;--pgap:${S.pgap}em;--align:${S.align};--ind:${S.ind||0}em;--talign:${S.talign};--tflex:${{left:'flex-start',center:'center',right:'flex-end'}[S.talign]||'flex-start'};--tw:${S.tw};--tgap:${S.tgap}em;--nmw:${nmw}px`;
 }
 function pageHTML(inner,i,total,nmw,measure){
   const head=(S.title||S.subtitle)&&(i===0||S.titleEvery)
     ?`<header class="ph">${S.title?`<div class="pt">${esc(S.title)}</div>`:''}${S.subtitle?`<div class="ps">${esc(S.subtitle)}</div>`:''}</header>`:'';
   const foot=(S.sign||(S.pageNum&&total>1))
     ?`<footer class="pf">${S.sign?`<span>${esc(S.sign)}</span>`:''}${S.pageNum&&total>1?`<span class="pn">${i+1} / ${total}</span>`:''}</footer>`:'';
-  const cls='page'+(S.titleLine?'':' noline')+(!measure&&fixedH()?' fixed':'')+(!measure&&S.vcenter?' vc':'');
+  const cls='page ts-'+S.titleStyle+' ta-'+S.talign+(S.subTop?' sub-top':'')+(!measure&&fixedH()?' fixed':'')+(!measure&&S.vcenter?' vc':'');
   return `<div class="${cls}" style="${pageStyle(nmw,!measure)}">${head}<div class="pb">${inner}</div>${foot}</div>`;
 }
 
@@ -368,7 +417,7 @@ function render(){
     }
     if(!best)return null;
     const [a,r]=balance(toks.slice(0,best).join('').trimEnd(),toks.slice(best).join(''));
-    return [{...b,text:a,cut:true,_h:undefined},{...b,text:r,cut:false,_h:undefined}];
+    return [{...b,text:a,cut:true,_h:undefined},{...b,text:r,cut:false,cont:true,_h:undefined}];
   }
 
   const queue=blocks.slice();const groups=[[]];let used=0;
@@ -485,6 +534,7 @@ document.addEventListener('click',e=>{
   if(e.target.matches('[data-pickfont]'))$('#fontFile').click();
   if(e.target.dataset.saveall)saveAll(e.target.dataset.saveall);
   if(e.target.dataset.align){S.align=e.target.dataset.align;syncInputs();save();schedule()}
+  if(e.target.dataset.talign){S.talign=e.target.dataset.talign;syncInputs();save();schedule()}
 });
 async function copyOne(i){
   try{const b=await toBlob(await capture(i));await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('이미지를 복사했어요')}
@@ -497,6 +547,8 @@ function syncInputs(){
   document.querySelectorAll('[data-k]').forEach(el=>{const k=el.dataset.k;if(el.type==='checkbox')el.checked=!!S[k];else el.value=S[k]});
   document.querySelectorAll('[data-v]').forEach(el=>el.textContent=S[el.dataset.v]??0);
   document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('on',b.dataset.align===S.align));
+  document.querySelectorAll('[data-talign]').forEach(b=>b.classList.toggle('on',b.dataset.talign===S.talign));
+  $('#indMinLabel').textContent=S.indentMin>0?`${S.indentMin}자 미만은 들여쓰기 안 함`:'모든 문단에 적용';
   fontHint();
 }
 function applyTheme(){const t=THEMES[S.theme];S.bg=t.bg;S.fg=t.fg;S.sub=t.sub;S.colors={}}
