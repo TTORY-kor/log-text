@@ -277,9 +277,13 @@ const FONT_BATANG="'바탕','Batang','Gowun Batang',serif";
 const FONT_USER="'LogUserFont','Nanum Myeongjo',serif";
 const LOCAL_FONTS={[FONT_HUMAN]:{label:'휴먼명조',names:['휴먼명조','HumanMyeongjo','Human Myeongjo'],fb:'나눔명조'},[FONT_BATANG]:{label:'바탕',names:['바탕','Batang'],fb:'고운바탕'}};
 const RATIOS={'A4':[210,297],'A4L':[297,210],'4:3':[4,3],'16:9':[16,9],'1:1':[1,1],'3:4':[3,4],'9:16':[9,16]};
-const ESSAY_SAMPLE=`그는 늘 한 박자 늦게 도착하는 사람이었다((사실 일부러 늦는 거라고 생각함. 확신 있음…)) 약속 장소에도, 대답에도, 이별에도. 그 느림은 게으름이라기보다 무언가를 끝까지 바라보려는 태도에 가까웠다. 먼저 떠나는 사람의 뒷모습까지 눈에 담아 두어야 비로소 자리를 뜰 수 있는 사람. 그래서 그의 시간은 언제나 남들보다 조금 길게 흘렀고, 그 길어진 시간만큼 그는 많은 것을 오래 기억했다.
+const ESSAY_SAMPLE=`동해 물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전하세
 
-방 안의 빛이 바뀌는 것을 그는 오래 지켜보았다. 창틀에 걸린 오후가 천천히 바닥으로 내려앉고, 책장의 그림자가 길어지다 마침내 벽 전체를 덮을 때까지. 누군가는 그것을 시간 낭비라 부르겠지만, 그에게는 하루를 제대로 떠나보내는 유일한 방식이었다. ((이 부분 읽고 한참 멍때림… 진짜로…))`;
+남산 위에 저 소나무 철갑을 두른 듯 바람 서리 불변함은 우리 기상일세 무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전하세
+
+가을 하늘 공활한데 높고 구름 없이 밝은 달은 우리 가슴 일편단심일세 무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전하세
+
+이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려 강산 대한 사람 대한으로 길이 보전하세`;
 const CHAT_SAMPLE=`하루: 오늘 영화 어땠어?
 유진: 음… 마지막 장면에서 조금 울 뻔했어.
 (하루가 팝콘 통을 내려놓는다.)
@@ -293,7 +297,7 @@ const PRESETS={
   essay34:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:22,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1080,ratio:'3:4',padX:120,padY:140,vcenter:false,titleStyle:'plain',pageNum:true,scale:1},
   chat:{theme:'paper',font:"'Pretendard',sans-serif",fs:17,tfs:1.45,lh:1.75,pgap:0.9,bgap:0.35,align:'left',dialogue:true,width:800,ratio:'free',maxH:1600,padX:56,padY:56,vcenter:false,titleStyle:'line',pageNum:true,scale:2}
 };
-const DEFAULTS=Object.assign({title:'빛이 늦게 도착하는 방',subtitle:'',text:ESSAY_SAMPLE,talkStyle:'side',maxH:1600,sign:'',titleEvery:false,colors:{},ls:0,ws:0,ind:0,indentMin:20,indentSkipFirst:false,talign:'left',tw:'700',tgap:1.9,subTop:false},PRESETS.essay43);
+const DEFAULTS=Object.assign({title:'애국가',subtitle:'',text:ESSAY_SAMPLE,talkStyle:'side',maxH:1600,sign:'',titleEvery:false,colors:{},ls:0,ws:0,ind:0,indentMin:20,indentSkipFirst:false,talign:'left',tw:'700',tgap:1.9,subTop:false},PRESETS.essay43);
 ['bg','fg','sub'].forEach(k=>DEFAULTS[k]=THEMES[DEFAULTS.theme][k]);
 const KEY='logimg:v2';
 let S;
