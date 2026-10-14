@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>로그 이미지 메이커</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Gothic:wght@400;700&family=Gowun+Dodum&family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic:wght@400;700&family=Gowun+Dodum&family=Gowun+Batang:wght@400;700&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
@@ -14,16 +14,16 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{background:var(--ui-bg);color:var(--ui-fg);font-family:'Pretendard',system-ui,sans-serif;font-size:14px}
-#app{position:relative;z-index:1;background:var(--ui-bg);display:grid;grid-template-columns:380px 1fr;height:100vh}
+#app{position:relative;z-index:1;background:var(--ui-bg);display:grid;grid-template-columns:390px 1fr;height:100vh}
 aside{background:var(--ui-panel);border-right:1px solid var(--ui-line);overflow-y:auto;padding:20px 18px 40px}
 aside h1{font-size:18px;margin:0 0 4px}
-aside .desc{color:var(--ui-sub);font-size:12.5px;margin:0 0 18px;line-height:1.5}
+aside .desc{color:var(--ui-sub);font-size:12.5px;margin:0 0 16px;line-height:1.5}
 .sec{border-top:1px solid var(--ui-line);padding:14px 0 6px}
 .sec>h2{font-size:12px;font-weight:700;color:var(--ui-sub);margin:0 0 10px;letter-spacing:.04em}
 label.f{display:block;margin-bottom:10px}
 label.f>span{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ui-sub);margin-bottom:4px}
 input[type=text],input[type=number],select,textarea{width:100%;font:inherit;color:var(--ui-fg);background:var(--ui-bg);border:1px solid var(--ui-line);border-radius:8px;padding:8px 10px}
-textarea{min-height:260px;resize:vertical;line-height:1.6;font-size:13.5px}
+textarea{min-height:300px;resize:vertical;line-height:1.65;font-size:13.5px}
 input[type=range]{width:100%}
 input[type=color]{width:34px;height:26px;border:1px solid var(--ui-line);border-radius:6px;padding:0;background:none;cursor:pointer}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -35,16 +35,27 @@ input[type=color]{width:34px;height:26px;border:1px solid var(--ui-line);border-
 .colors label{display:flex;align-items:center;gap:6px}
 .btn{font:inherit;font-weight:600;border:0;border-radius:9px;padding:10px 14px;cursor:pointer;background:var(--ui-accent);color:#fff}
 .btn.ghost{background:transparent;color:var(--ui-fg);border:1px solid var(--ui-line)}
+.btn.sm{padding:5px 10px;font-size:12px;font-weight:500}
 .btn:disabled{opacity:.5;cursor:wait}
+.tbar{display:flex;gap:6px;margin-bottom:6px}
+.seg{display:flex;border:1px solid var(--ui-line);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.seg button{flex:1;font:inherit;font-size:13px;border:0;background:var(--ui-bg);color:var(--ui-fg);padding:8px 4px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--ui-line)}
+.seg button.on{background:var(--ui-accent);color:#fff;font-weight:600}
+.fhint{font-size:12px;line-height:1.6;color:#c2410c;margin:-4px 0 10px}
+.fhint.ok{color:var(--ui-sub)}
+.linkbtn{background:none;border:0;padding:0;font:inherit;font-size:12px;color:var(--ui-accent);cursor:pointer;text-decoration:underline}
+.pbar{position:sticky;top:-24px;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:var(--ui-bg);padding:10px 0 14px;margin:-10px auto 10px}
+.pbar .info{color:var(--ui-sub);font-size:13px}
+.pbar .acts{display:flex;gap:8px}
 .sticky{position:sticky;bottom:-40px;background:var(--ui-panel);padding:12px 0 0;display:flex;gap:8px}
 .sticky .btn{flex:1}
 main{overflow:auto;padding:24px}
 .ptools{display:flex;justify-content:space-between;align-items:center;color:var(--ui-sub);font-size:12.5px;margin:0 auto 8px}
 .ptools .acts{display:flex;gap:6px}
-.ptools .btn{padding:5px 10px;font-size:12px}
 .pwrap{margin:0 auto 28px}
 .pscale{transform-origin:top left;box-shadow:0 4px 24px rgba(0,0,0,.12)}
-.help{font-size:12px;color:var(--ui-sub);line-height:1.7;background:var(--ui-bg);border-radius:8px;padding:10px 12px;margin-top:4px}
+.help{font-size:12px;color:var(--ui-sub);line-height:1.75;background:var(--ui-bg);border-radius:8px;padding:10px 12px;margin-top:6px}
 .help code{background:var(--ui-line);border-radius:4px;padding:0 4px}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:9px 16px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;z-index:10;pointer-events:none}
 #toast.on{opacity:1}
@@ -53,13 +64,19 @@ main{overflow:auto;padding:24px}
 @media (max-width:820px){#app{grid-template-columns:1fr;height:auto}aside{border-right:0;border-bottom:1px solid var(--ui-line)}main{padding:16px}}
 
 /* ---- 출력 이미지 스타일 ---- */
-.page{position:relative;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:var(--fs);line-height:var(--lh);padding:var(--pad);word-break:keep-all;overflow-wrap:anywhere;text-align:var(--align)}
-.page .ph{padding-bottom:1em;margin-bottom:1.4em;border-bottom:1px solid var(--line)}
-.page .pt{font-size:1.45em;font-weight:700;line-height:1.35}
+.page{position:relative;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:var(--fs);line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);padding:var(--py) var(--px);word-break:keep-all;overflow-wrap:anywhere;text-align:var(--align)}
+.page.fixed{display:flex;flex-direction:column;overflow:hidden}
+.page.fixed .pb{flex:1 1 auto}
+.page.fixed.vc .pb{display:flex;flex-direction:column;justify-content:center}
+.page .ph{padding-bottom:1em;margin-bottom:1.4em;border-bottom:1px solid var(--line);text-align:left}
+.page.noline .ph{border-bottom:0;padding-bottom:0;margin-bottom:1.9em}
+.page .pt{font-size:var(--tfs);font-weight:700;line-height:1.4}
 .page .ps{color:var(--sub);font-size:.82em;margin-top:.35em}
 .page .pb{position:relative}
 .page .b{padding-bottom:var(--bgap)}
-.page .gap{height:.9em}
+.page .b.cut{text-align-last:justify}
+.page .fade{color:var(--sub)}
+.page .gap{height:var(--pgap)}
 .page .hr{padding:1em 0 1.2em}
 .page .hr::before{content:'';display:block;border-top:1px solid var(--line)}
 .page .note{color:var(--sub)}
@@ -71,6 +88,7 @@ main{overflow:auto;padding:24px}
 .page .talk.bar{border-left:3px solid var(--c);padding-left:.8em;margin-bottom:var(--bgap);padding-bottom:0}
 .page .talk.bar .nm{display:block;font-size:.85em}
 .page .pf{display:flex;gap:1em;margin-top:1.4em;padding-top:.8em;border-top:1px solid var(--line);color:var(--sub);font-size:.75em}
+.page.noline .pf{border-top:0}
 .page .pf .pn{margin-left:auto}
 </style>
 </head>
@@ -78,81 +96,124 @@ main{overflow:auto;padding:24px}
 <div id="app">
   <aside>
     <h1>로그 이미지 메이커</h1>
-    <p class="desc">글로그를 붙여넣으면 이미지로 조판해 줘요. 길면 여러 장으로 자동 분할돼요.</p>
+    <p class="desc">글로그를 붙여넣으면 이미지로 조판해 줘요. 길면 문단 중간에서도 자연스럽게 다음 장으로 넘어가요.</p>
 
     <div class="sec">
+      <label class="f"><span>프리셋</span>
+        <select id="preset">
+          <option value="">— 프리셋 적용 —</option>
+          <option value="a4">A4 세로 · 휴먼명조</option>
+          <option value="a4l">A4 가로 · 휴먼명조</option>
+          <option value="essay43">에세이 · 가로 4:3</option>
+          <option value="essay11">에세이 · 정사각 1:1</option>
+          <option value="essay34">에세이 · 세로 3:4</option>
+          <option value="chat">대화 로그 · 종이</option>
+        </select></label>
       <label class="f"><span>제목</span><input type="text" data-k="title" placeholder="비워두면 표시 안 함"></label>
-      <label class="f"><span>부제 / 날짜</span><input type="text" data-k="subtitle" placeholder="예: 2026.10.14 · 1화"></label>
-      <label class="f"><span>로그 본문</span><textarea data-k="text" spellcheck="false"></textarea></label>
+      <label class="f"><span>부제 / 날짜</span><input type="text" data-k="subtitle" placeholder="비워두면 표시 안 함"></label>
+      <label class="f"><span>본문</span></label>
+      <div class="tbar">
+        <button class="btn ghost sm" data-wrap="fade">흐리게</button>
+        <button class="btn ghost sm" data-wrap="bold">굵게</button>
+        <button class="btn ghost sm" data-wrap="strike">취소선</button>
+      </div>
+      <textarea id="ta" data-k="text" spellcheck="false"></textarea>
       <div class="help">
-        <code>이름: 대사</code> → 인물별 색 대사<br>
-        <code>(지문)</code> 또는 <code>* 지문</code> → 흐린 글씨<br>
+        <code>((속마음))</code> → 문장 안에서 흐린 글씨 (드래그 후 <b>흐리게</b> 버튼)<br>
         <code>**굵게**</code> <code>*기울임*</code> <code>~~취소선~~</code><br>
-        <code>---</code> → 구분선 · 빈 줄 → 간격
+        빈 줄 → 문단 간격 · <code>---</code> → 구분선<br>
+        <code>(지문)</code>, <code>* 지문</code> → 한 줄 전체 흐리게<br>
+        <code>이름: 대사</code> → 인물별 색 대사 (설정에서 켜기)
       </div>
     </div>
 
     <div class="sec">
-      <h2>인물 색</h2>
-      <div class="names" id="names"></div>
+      <h2>판형</h2>
+      <div class="row">
+        <label class="f"><span>비율 <b id="sizeInfo"></b></span>
+          <select data-k="ratio">
+            <option value="A4">A4 세로</option><option value="A4L">A4 가로</option>
+            <option value="4:3">가로 4:3</option><option value="16:9">가로 16:9</option>
+            <option value="1:1">정사각 1:1</option><option value="3:4">세로 3:4</option>
+            <option value="9:16">세로 9:16</option><option value="free">자유 (내용 길이)</option>
+          </select></label>
+        <label class="f"><span>너비(px)</span><input type="number" min="320" max="2400" step="10" data-k="width"></label>
+      </div>
+      <label class="f" id="maxHrow"><span>한 장 최대 높이 (0 = 나누지 않음)</span><input type="number" min="0" max="10000" step="50" data-k="maxH"></label>
+      <label class="f"><span>좌우 여백 <b data-v="padX"></b></span><input type="range" min="16" max="400" step="2" data-k="padX"></label>
+      <label class="f"><span>위아래 여백 <b data-v="padY"></b></span><input type="range" min="16" max="400" step="2" data-k="padY"></label>
+      <label class="chk"><input type="checkbox" data-k="vcenter"> 본문 세로 가운데 정렬</label>
     </div>
 
     <div class="sec">
-      <h2>스타일</h2>
+      <h2>글자</h2>
       <div class="row">
         <label class="f"><span>테마</span>
-          <select data-k="theme" id="theme">
-            <option value="paper">종이</option><option value="white">화이트</option>
+          <select data-k="theme">
+            <option value="essay">백지</option><option value="paper">종이</option><option value="white">화이트</option>
             <option value="blossom">벚꽃</option><option value="mint">민트</option>
             <option value="dark">다크</option><option value="night">밤하늘</option>
           </select></label>
         <label class="f"><span>글꼴</span>
-          <select data-k="font">
+          <select data-k="font" id="fontSel">
+            <option value="'휴먼명조','HumanMyeongjo','Human Myeongjo','Nanum Myeongjo',serif">휴먼명조</option>
+            <option value="'바탕','Batang','Gowun Batang',serif">바탕</option>
+            <option value="'Nanum Myeongjo',serif">나눔명조</option>
+            <option value="'Noto Serif KR',serif">본명조</option>
+            <option value="'Gowun Batang',serif">고운바탕</option>
             <option value="'Pretendard',sans-serif">프리텐다드</option>
             <option value="'Nanum Gothic',sans-serif">나눔고딕</option>
             <option value="'Gowun Dodum',sans-serif">고운돋움</option>
-            <option value="'Gowun Batang',serif">고운바탕</option>
-            <option value="'Nanum Myeongjo',serif">나눔명조</option>
-            <option value="'Noto Serif KR',serif">본명조</option>
+            <option value="'LogUserFont','Nanum Myeongjo',serif">내 글꼴 파일 사용…</option>
           </select></label>
       </div>
+      <div class="fhint ok" id="fontHint"></div>
+      <input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2" hidden>
       <div class="colors">
         <label>배경 <input type="color" data-k="bg"></label>
         <label>글자 <input type="color" data-k="fg"></label>
-        <label>보조 <input type="color" data-k="sub"></label>
+        <label>흐림 <input type="color" data-k="sub"></label>
       </div>
+      <label class="f"><span>글자 크기 <b data-v="fs"></b></span><input type="range" min="12" max="40" step="1" data-k="fs"></label>
+      <label class="f"><span>제목 크기 <b data-v="tfs"></b></span><input type="range" min="1" max="2.5" step="0.05" data-k="tfs"></label>
+      <label class="f"><span>줄 간격 <b data-v="lh"></b></span><input type="range" min="1.2" max="3" step="0.05" data-k="lh"></label>
+      <label class="f"><span>자간 (글자 사이) <b data-v="ls"></b></span><input type="range" min="-0.1" max="0.3" step="0.01" data-k="ls"></label>
+      <label class="f"><span>어간 (단어 사이) <b data-v="ws"></b></span><input type="range" min="-0.2" max="0.8" step="0.02" data-k="ws"></label>
+      <label class="f"><span>문단 간격 <b data-v="pgap"></b></span><input type="range" min="0" max="3" step="0.1" data-k="pgap"></label>
+      <label class="f"><span>줄 사이 여백 <b data-v="bgap"></b></span><input type="range" min="0" max="1.5" step="0.05" data-k="bgap"></label>
+      <label class="f"><span>정렬</span></label>
+      <div class="seg" id="alignSeg">
+        <button data-align="justify">양쪽 정렬</button><button data-align="left">왼쪽</button><button data-align="center">가운데</button>
+      </div>
+      <label class="chk"><input type="checkbox" data-k="titleLine"> 제목 아래 구분선</label>
+    </div>
+
+    <div class="sec">
+      <h2>대사</h2>
+      <label class="chk"><input type="checkbox" data-k="dialogue"> <code>이름: 대사</code> 형식 인식</label>
       <label class="f"><span>대사 모양</span>
         <select data-k="talkStyle">
           <option value="side">이름 | 대사 (나란히)</option>
           <option value="stack">이름 위, 대사 아래</option>
           <option value="bar">색 막대 + 이름</option>
         </select></label>
-      <label class="f"><span>글자 크기 <b data-v="fs"></b></span><input type="range" min="12" max="26" step="1" data-k="fs"></label>
-      <label class="f"><span>줄 간격 <b data-v="lh"></b></span><input type="range" min="1.3" max="2.4" step="0.05" data-k="lh"></label>
-      <label class="f"><span>줄 사이 여백 <b data-v="bgap"></b></span><input type="range" min="0" max="1.5" step="0.05" data-k="bgap"></label>
-      <label class="f"><span>바깥 여백 <b data-v="pad"></b></span><input type="range" min="16" max="100" step="2" data-k="pad"></label>
-      <label class="f"><span>정렬</span>
-        <select data-k="align"><option value="left">왼쪽</option><option value="justify">양쪽</option><option value="center">가운데</option></select></label>
-      <label class="chk"><input type="checkbox" data-k="dialogue"> <code>이름: 대사</code> 형식 인식</label>
+      <div class="names" id="names"></div>
     </div>
 
     <div class="sec">
-      <h2>이미지</h2>
-      <div class="row">
-        <label class="f"><span>너비(px)</span><input type="number" min="320" max="2000" step="10" data-k="width"></label>
-        <label class="f"><span>한 장 최대 높이</span><input type="number" min="0" max="10000" step="50" data-k="maxH" title="0이면 나누지 않음"></label>
-      </div>
+      <h2>저장</h2>
       <div class="row">
         <label class="f"><span>저장 배율</span>
-          <select data-k="scale"><option value="1">1x</option><option value="2">2x (선명)</option><option value="3">3x</option></select></label>
+          <select data-k="scale"><option value="1">1x (원본 크기)</option><option value="2">2x (선명)</option><option value="3">3x</option></select></label>
         <label class="f"><span>서명 / 출처</span><input type="text" data-k="sign" placeholder="@계정명"></label>
       </div>
       <label class="chk"><input type="checkbox" data-k="pageNum"> 페이지 번호 표시</label>
       <label class="chk"><input type="checkbox" data-k="titleEvery"> 모든 장에 제목 표시</label>
       <div class="sticky">
-        <button class="btn" id="saveAll">전체 저장</button>
-        <button class="btn ghost" id="reset">초기화</button>
+        <button class="btn" data-saveall="zip">ZIP으로 전부</button>
+        <button class="btn ghost" data-saveall="png">PNG 낱장 전부</button>
       </div>
+      <p style="text-align:right;margin:10px 0 0"><button class="linkbtn" id="reset">설정·본문 초기화</button></p>
     </div>
   </aside>
   <main id="preview"></main>
@@ -163,28 +224,38 @@ main{overflow:auto;padding:24px}
 
 <script>
 const THEMES={
-  paper:{bg:'#f6f1e7',fg:'#3b3127',sub:'#958673',line:'#e3d9c7',pal:['#b5543b','#3f6e8c','#6b8a3a','#8a4f8c','#b08422','#2f7a73']},
-  white:{bg:'#ffffff',fg:'#222226',sub:'#8e8e95',line:'#ececf0',pal:['#e0533d','#3b7dd8','#2e9e6b','#9b59b6','#d68910','#16a3a3']},
-  blossom:{bg:'#fff4f6',fg:'#4a3539',sub:'#b0939a',line:'#f4dce1',pal:['#d9577a','#6b7fd6','#4f9e86','#b0659e','#d0883a','#4b9fc0']},
-  mint:{bg:'#eef7f3',fg:'#24403a',sub:'#7f9d95',line:'#d3e8df',pal:['#d0603f','#2f7fa8','#4a8a3c','#8a5ab0','#bf8a1e','#c44f7a']},
-  dark:{bg:'#1c1c1f',fg:'#e8e6e3',sub:'#8d8a86',line:'#34343a',pal:['#ff8a73','#7fb3ff','#7fd6a3','#d1a3ff','#f5c76b','#6fd8d8']},
-  night:{bg:'#141b2d',fg:'#dfe6f5',sub:'#7d8aa8',line:'#27324d',pal:['#ffb38a','#8ec5ff','#a0e3b5','#c9a8ff','#ffd97a','#ff9ec4']}
+  essay:{bg:'#ffffff',fg:'#1b1b1b',sub:'#c4c4c4',line:'#e6e6e6',pal:['#c0533d','#3b6fb0','#3d8a5f','#8a55a8','#b8862a','#2f8a8a']},
+  paper:{bg:'#f6f1e7',fg:'#3b3127',sub:'#a99a86',line:'#e3d9c7',pal:['#b5543b','#3f6e8c','#6b8a3a','#8a4f8c','#b08422','#2f7a73']},
+  white:{bg:'#ffffff',fg:'#222226',sub:'#9a9aa1',line:'#ececf0',pal:['#e0533d','#3b7dd8','#2e9e6b','#9b59b6','#d68910','#16a3a3']},
+  blossom:{bg:'#fff4f6',fg:'#4a3539',sub:'#c0a2a9',line:'#f4dce1',pal:['#d9577a','#6b7fd6','#4f9e86','#b0659e','#d0883a','#4b9fc0']},
+  mint:{bg:'#eef7f3',fg:'#24403a',sub:'#93b0a8',line:'#d3e8df',pal:['#d0603f','#2f7fa8','#4a8a3c','#8a5ab0','#bf8a1e','#c44f7a']},
+  dark:{bg:'#1c1c1f',fg:'#e8e6e3',sub:'#6f6c69',line:'#34343a',pal:['#ff8a73','#7fb3ff','#7fd6a3','#d1a3ff','#f5c76b','#6fd8d8']},
+  night:{bg:'#141b2d',fg:'#dfe6f5',sub:'#66728f',line:'#27324d',pal:['#ffb38a','#8ec5ff','#a0e3b5','#c9a8ff','#ffd97a','#ff9ec4']}
 };
-const SAMPLE=`하루: 오늘 영화 어땠어?
+const FONT_HUMAN="'휴먼명조','HumanMyeongjo','Human Myeongjo','Nanum Myeongjo',serif";
+const FONT_BATANG="'바탕','Batang','Gowun Batang',serif";
+const FONT_USER="'LogUserFont','Nanum Myeongjo',serif";
+const LOCAL_FONTS={[FONT_HUMAN]:{label:'휴먼명조',names:['휴먼명조','HumanMyeongjo','Human Myeongjo'],fb:'나눔명조'},[FONT_BATANG]:{label:'바탕',names:['바탕','Batang'],fb:'고운바탕'}};
+const RATIOS={'A4':[210,297],'A4L':[297,210],'4:3':[4,3],'16:9':[16,9],'1:1':[1,1],'3:4':[3,4],'9:16':[9,16]};
+const ESSAY_SAMPLE=`그는 늘 한 박자 늦게 도착하는 사람이었다((사실 일부러 늦는 거라고 생각함. 확신 있음…)) 약속 장소에도, 대답에도, 이별에도. 그 느림은 게으름이라기보다 무언가를 끝까지 바라보려는 태도에 가까웠다. 먼저 떠나는 사람의 뒷모습까지 눈에 담아 두어야 비로소 자리를 뜰 수 있는 사람. 그래서 그의 시간은 언제나 남들보다 조금 길게 흘렀고, 그 길어진 시간만큼 그는 많은 것을 오래 기억했다.
+
+방 안의 빛이 바뀌는 것을 그는 오래 지켜보았다. 창틀에 걸린 오후가 천천히 바닥으로 내려앉고, 책장의 그림자가 길어지다 마침내 벽 전체를 덮을 때까지. 누군가는 그것을 시간 낭비라 부르겠지만, 그에게는 하루를 제대로 떠나보내는 유일한 방식이었다. ((이 부분 읽고 한참 멍때림… 진짜로…))`;
+const CHAT_SAMPLE=`하루: 오늘 영화 어땠어?
 유진: 음… 마지막 장면에서 조금 울 뻔했어.
 (하루가 팝콘 통을 내려놓는다.)
 하루: **조금**이 아니던데. 휴지 세 장 썼잖아.
-유진: 그건 비밀로 해 줘.
-
----
-
-* 상영관 불이 켜지고, 두 사람은 한동안 자리에서 일어나지 않았다.
-하루: 다음 주에 2편도 보러 갈래?
-유진: 당연하지.`;
-const DEFAULTS={title:'영화 본 날',subtitle:'2026.10.14',text:SAMPLE,theme:'paper',font:"'Pretendard',sans-serif",
-  bg:THEMES.paper.bg,fg:THEMES.paper.fg,sub:THEMES.paper.sub,talkStyle:'side',fs:17,lh:1.75,bgap:0.35,pad:56,align:'left',
-  dialogue:true,width:800,maxH:1600,scale:2,sign:'',pageNum:true,titleEvery:false,colors:{}};
-const KEY='logimg:v1';
+유진: 그건 비밀로 해 줘.`;
+const PRESETS={
+  a4:{theme:'essay',font:FONT_HUMAN,fs:23,tfs:1.4,lh:1.9,ls:0,ws:0,pgap:1.4,bgap:0,align:'justify',dialogue:false,width:1240,ratio:'A4',padX:150,padY:170,vcenter:false,titleLine:false,pageNum:true,scale:1},
+  a4l:{theme:'essay',font:FONT_HUMAN,fs:21,tfs:1.45,lh:2,ls:0,ws:0,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1754,ratio:'A4L',padX:230,padY:150,vcenter:false,titleLine:false,pageNum:false,scale:1},
+  essay43:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:21,tfs:1.45,lh:2.05,pgap:1.6,bgap:0,align:'justify',dialogue:false,width:1440,ratio:'4:3',padX:225,padY:150,vcenter:false,titleLine:false,pageNum:false,scale:1},
+  essay11:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:21,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1200,ratio:'1:1',padX:150,padY:140,vcenter:false,titleLine:false,pageNum:false,scale:1},
+  essay34:{theme:'essay',font:"'Nanum Myeongjo',serif",fs:22,tfs:1.4,lh:2,pgap:1.5,bgap:0,align:'justify',dialogue:false,width:1080,ratio:'3:4',padX:120,padY:140,vcenter:false,titleLine:false,pageNum:true,scale:1},
+  chat:{theme:'paper',font:"'Pretendard',sans-serif",fs:17,tfs:1.45,lh:1.75,pgap:0.9,bgap:0.35,align:'left',dialogue:true,width:800,ratio:'free',maxH:1600,padX:56,padY:56,vcenter:false,titleLine:true,pageNum:true,scale:2}
+};
+const DEFAULTS=Object.assign({title:'빛이 늦게 도착하는 방',subtitle:'',text:ESSAY_SAMPLE,talkStyle:'side',maxH:1600,sign:'',titleEvery:false,colors:{},ls:0,ws:0},PRESETS.essay43);
+['bg','fg','sub'].forEach(k=>DEFAULTS[k]=THEMES[DEFAULTS.theme][k]);
+const KEY='logimg:v2';
 let S;
 try{S=Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){S={...DEFAULTS}}
 S.colors=S.colors||{};
@@ -192,7 +263,8 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const $=s=>document.querySelector(s);
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function inline(s){
-  return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
+  return esc(s).replace(/\(\(([\s\S]*?)\)\)/g,'<span class="fade">$1</span>')
+    .replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
     .replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g,'$1<i>$2</i>')
     .replace(/~~(.+?)~~/g,'<s>$1</s>');
 }
@@ -205,9 +277,9 @@ function parse(text){
     const line=raw.trim();
     if(!line){if(out.length&&out[out.length-1].type!=='gap')out.push({type:'gap'});continue}
     if(/^(-{3,}|={3,}|\*{3,}|_{3,})$/.test(line)){out.push({type:'hr'});continue}
-    if(/^[(（].*[)）]$/.test(line)||/^[*＊]\s/.test(line)){out.push({type:'note',text:line.replace(/^[*＊]\s/,'')});continue}
+    if(!/^\(\(/.test(line)&&(/^[(（][^()（）]*[)）]$/.test(line)||/^[*＊]\s/.test(line))){out.push({type:'note',text:line.replace(/^[*＊]\s/,'')});continue}
     if(S.dialogue){
-      const m=line.match(/^([^:：\s][^:：]{0,19}?)\s*[:：]\s?(.*)$/);
+      const m=line.match(/^([^:：\s(][^:：]{0,19}?)\s*[:：]\s?(.*)$/);
       if(m&&!/^https?$/i.test(m[1])&&!/[.!?。]$/.test(m[1])){
         const name=m[1].trim();if(!names.includes(name))names.push(name);
         out.push({type:'talk',name,text:m[2]});continue;
@@ -223,82 +295,122 @@ function colorOf(name,names){
   return S.colors[name]||pal[names.indexOf(name)%pal.length];
 }
 function blockHTML(b,names){
+  const cut=b.cut&&S.align==='justify'?' cut':'';
   switch(b.type){
     case 'gap':return '<div class="gap"></div>';
     case 'hr':return '<div class="hr"></div>';
-    case 'note':return `<div class="b note">${inline(b.text)}</div>`;
+    case 'note':return `<div class="b note${cut}">${inline(b.text)}</div>`;
     case 'talk':return `<div class="b talk ${S.talkStyle}" style="--c:${colorOf(b.name,names)}"><span class="nm">${esc(b.name)}</span><span class="tx">${inline(b.text)}</span></div>`;
-    default:return `<div class="b">${inline(b.text)}</div>`;
+    default:return `<div class="b${cut}">${inline(b.text)}</div>`;
   }
+}
+// 문단을 둘로 나눌 때 ((흐림)) **굵게** ~~취소~~ 가 끊기지 않도록 닫고 다시 열기
+function balance(a,b){
+  const cnt=(s,t)=>s.split(t).length-1;let pre='',suf='';
+  if(cnt(a,'((')>cnt(a,'))')){suf='))'+suf;pre=pre+'((';}
+  if(cnt(a,'**')%2){suf='**'+suf;pre=pre+'**';}
+  if(cnt(a,'~~')%2){suf='~~'+suf;pre=pre+'~~';}
+  return [a+suf,pre+b];
 }
 
 /* ---- 페이지 조립 ---- */
-function pageStyle(nmw){
-  const t=THEMES[S.theme];
-  return `width:${S.width}px;--bg:${S.bg};--fg:${S.fg};--sub:${S.sub};--line:${t.line};--font:${S.font};--fs:${S.fs}px;--lh:${S.lh};--pad:${S.pad}px;--bgap:${S.bgap}em;--align:${S.align};--nmw:${nmw}px`;
+const fixedH=()=>S.ratio!=='free'&&RATIOS[S.ratio]?Math.round(S.width*RATIOS[S.ratio][1]/RATIOS[S.ratio][0]):0;
+function pageStyle(nmw,withH){
+  const t=THEMES[S.theme]||THEMES.essay;const h=fixedH();
+  return `width:${S.width}px;${withH&&h?`height:${h}px;`:''}--bg:${S.bg};--fg:${S.fg};--sub:${S.sub};--line:${t.line};--font:${S.font};--fs:${S.fs}px;--tfs:${S.tfs}em;--lh:${S.lh};--ls:${S.ls||0}em;--ws:${S.ws||0}em;--px:${S.padX}px;--py:${S.padY}px;--bgap:${S.bgap}em;--pgap:${S.pgap}em;--align:${S.align};--nmw:${nmw}px`;
 }
-function pageHTML(inner,i,total,nmw){
+function pageHTML(inner,i,total,nmw,measure){
   const head=(S.title||S.subtitle)&&(i===0||S.titleEvery)
     ?`<header class="ph">${S.title?`<div class="pt">${esc(S.title)}</div>`:''}${S.subtitle?`<div class="ps">${esc(S.subtitle)}</div>`:''}</header>`:'';
   const foot=(S.sign||(S.pageNum&&total>1))
     ?`<footer class="pf">${S.sign?`<span>${esc(S.sign)}</span>`:''}${S.pageNum&&total>1?`<span class="pn">${i+1} / ${total}</span>`:''}</footer>`:'';
-  return `<div class="page" style="${pageStyle(nmw)}">${head}<div class="pb">${inner}</div>${foot}</div>`;
+  const cls='page'+(S.titleLine?'':' noline')+(!measure&&fixedH()?' fixed':'')+(!measure&&S.vcenter?' vc':'');
+  return `<div class="${cls}" style="${pageStyle(nmw,!measure)}">${head}<div class="pb">${inner}</div>${foot}</div>`;
 }
 
 let PAGES=[];
 function render(){
   const {blocks,names}=parse(S.text);
   renderNames(names);
-  const htmls=blocks.map(b=>blockHTML(b,names));
+  $('#maxHrow').style.display=S.ratio==='free'?'':'none';
+  $('#sizeInfo').textContent=fixedH()?`${S.width}×${fixedH()}px`:`너비 ${S.width}px`;
   const meas=$('#measure');
 
-  // 이름 칸 너비(가장 긴 이름에 맞춤)
   let nmw=0;
   if(names.length&&S.talkStyle==='side'){
     meas.innerHTML=`<div class="page" style="${pageStyle(0)}">${names.map(n=>`<div class="b talk side"><span class="nm" style="display:inline-block;min-width:0">${esc(n)}</span></div>`).join('')}</div>`;
     meas.querySelectorAll('.nm').forEach(e=>nmw=Math.max(nmw,Math.ceil(e.getBoundingClientRect().width)));
   }
 
-  // 높이 측정 (머리말 + 꼬리말 포함한 2장짜리 가정)
-  meas.innerHTML=pageHTML(htmls.join(''),0,2,nmw);
-  const page=meas.firstElementChild,body=page.querySelector('.pb');
-  const headSpace=body.offsetTop-S.pad;
-  const footSpace=page.offsetHeight-S.pad-(body.offsetTop+body.offsetHeight);
-  const kids=[...body.children];
-  const hs=kids.map((k,i)=>(i<kids.length-1?kids[i+1].offsetTop:body.offsetHeight)-k.offsetTop);
+  // 머리말/꼬리말 공간 측정
+  meas.innerHTML=pageHTML('',0,2,nmw,true);
+  let pg=meas.firstElementChild,pb=pg.querySelector('.pb');
+  const headSpace=pb.offsetTop-S.padY;
+  const footSpace=pg.offsetHeight-S.padY-(pb.offsetTop+pb.offsetHeight);
+  // 블록 측정용 페이지
+  meas.innerHTML=pageHTML('',1,1,nmw,true).replace(/<header[\s\S]*?<\/header>/,'');
+  const mbody=meas.querySelector('.pb');
+  const measure=b=>{mbody.innerHTML=blockHTML(b,names);return mbody.offsetHeight};
+  const hOf=b=>(b._h??=measure(b));
 
-  const limitFor=p=>S.maxH-S.pad*2-footSpace-((p===0||S.titleEvery)?headSpace:0);
-  const groups=[[]];let used=0;
-  blocks.forEach((b,i)=>{
-    const cur=groups[groups.length-1];const skip=b.type==='gap'||b.type==='hr';
-    if(!cur.length&&skip&&groups.length>1)return;
-    if(S.maxH>0&&cur.length&&used+hs[i]>limitFor(groups.length-1)){
-      while(cur.length&&/gap|hr/.test(blocks[cur[cur.length-1]].type))cur.pop();
-      groups.push(skip?[]:[i]);used=skip?0:hs[i];return;
+  const pageH=fixedH()||S.maxH;
+  const limitFor=p=>pageH-S.padY*2-footSpace-((p===0||S.titleEvery)?headSpace:0)-1;
+  const lineH=S.fs*S.lh;
+
+  function splitFit(b,room){
+    const toks=b.text.split(/(?<=\s)/);
+    if(toks.length<2)return null;
+    let lo=1,hi=toks.length-1,best=0;
+    while(lo<=hi){
+      const mid=(lo+hi)>>1;
+      const [a]=balance(toks.slice(0,mid).join('').trimEnd(),'');
+      if(measure({...b,text:a,cut:true})<=room){best=mid;lo=mid+1}else hi=mid-1;
     }
-    cur.push(i);used+=hs[i];
-  });
+    if(!best)return null;
+    const [a,r]=balance(toks.slice(0,best).join('').trimEnd(),toks.slice(best).join(''));
+    return [{...b,text:a,cut:true,_h:undefined},{...b,text:r,cut:false,_h:undefined}];
+  }
+
+  const queue=blocks.slice();const groups=[[]];let used=0;
+  const newPage=()=>{const cur=groups[groups.length-1];while(cur.length&&/gap|hr/.test(cur[cur.length-1].type))cur.pop();groups.push([]);used=0};
+  while(queue.length){
+    const b=queue.shift();const cur=groups[groups.length-1];
+    const skip=b.type==='gap'||b.type==='hr';
+    if(!cur.length&&b.type==='gap')continue;
+    if(!cur.length&&skip&&groups.length>1)continue;
+    const h=hOf(b);
+    if(pageH>0&&used+h>limitFor(groups.length-1)){
+      const room=limitFor(groups.length-1)-used;
+      const splittable=b.type==='para'||b.type==='note';
+      if(splittable&&room>=lineH*1.2){const sp=splitFit(b,room);if(sp){cur.push(sp[0]);queue.unshift(sp[1]);newPage();continue}}
+      if(cur.length){newPage();if(!skip)queue.unshift(b);continue}
+      cur.push(b);used+=h;continue; // 한 줄도 안 들어가는 경우 그대로 둠
+    }
+    cur.push(b);used+=h;
+  }
   if(groups.length>1&&!groups[groups.length-1].length)groups.pop();
   meas.innerHTML='';
 
-  PAGES=groups.map((g,i)=>pageHTML(g.map(j=>htmls[j]).join(''),i,groups.length,nmw));
+  PAGES=groups.map((g,i)=>pageHTML(g.map(b=>blockHTML(b,names)).join(''),i,groups.length,nmw,false));
   drawPreview();
 }
 function drawPreview(){
   const pv=$('#preview');
   const avail=Math.max(200,pv.clientWidth-48);
   const k=Math.min(1,avail/S.width);
-  pv.innerHTML=PAGES.map((h,i)=>`
+  const bw=Math.max(S.width*k,320);
+  pv.innerHTML=`<div class="pbar" style="width:${bw}px"><span class="info">총 ${PAGES.length}장 · ${S.width}×${fixedH()||'자유'}px · ${S.scale}x 저장</span>
+    <span class="acts"><button class="btn sm" data-saveall="zip">ZIP으로 전부 저장</button><button class="btn ghost sm" data-saveall="png">PNG 낱장 전부 저장</button></span></div>`+PAGES.map((h,i)=>`
     <div class="ptools" style="width:${S.width*k}px"><span>${i+1} / ${PAGES.length}장</span>
-      <span class="acts"><button class="btn ghost" data-copy="${i}">복사</button><button class="btn ghost" data-save="${i}">저장</button></span></div>
+      <span class="acts"><button class="btn ghost sm" data-copy="${i}">복사</button><button class="btn ghost sm" data-save="${i}">저장</button></span></div>
     <div class="pwrap" style="width:${S.width*k}px"><div class="pscale" style="transform:scale(${k})">${h}</div></div>`).join('');
   pv.querySelectorAll('.pwrap').forEach(w=>{w.style.height=w.firstElementChild.firstElementChild.offsetHeight*k+'px'});
 }
 function renderNames(names){
   const box=$('#names');
-  const key=names.join('\u0000')+S.theme+JSON.stringify(S.colors);
+  const key=names.join('\u0000')+S.theme+JSON.stringify(S.colors)+S.dialogue;
   if(box._key===key)return;box._key=key;
-  if(!names.length){box.innerHTML='<div class="empty">대사(이름: 대사)가 있으면 여기에 인물이 나타나요.</div>';return}
+  if(!names.length){box.innerHTML=`<div class="empty">${S.dialogue?'대사(이름: 대사)가 있으면 여기에 인물이 나타나요.':'대사 인식이 꺼져 있어요.'}</div>`;return}
   box.innerHTML=names.map(n=>`<label class="nmrow"><input type="color" value="${colorOf(n,names)}" data-name="${esc(n)}"> ${esc(n)}</label>`).join('');
 }
 
@@ -307,7 +419,7 @@ async function capture(i){
   await document.fonts.ready;
   const stage=$('#stage');stage.innerHTML=PAGES[i];
   const el=stage.firstElementChild;
-  try{return await html2canvas(el,{scale:+S.scale,backgroundColor:S.bg,useCORS:true,scrollX:0,scrollY:0,windowWidth:Math.max(S.width+100,window.innerWidth)})}
+  try{return await html2canvas(el,{scale:+S.scale,backgroundColor:S.bg,useCORS:true,scrollX:0,scrollY:0,windowWidth:Math.max(S.width+100,window.innerWidth),windowHeight:Math.max(el.offsetHeight+100,window.innerHeight)})}
   finally{stage.innerHTML=''}
 }
 const toBlob=c=>new Promise(r=>c.toBlob(r,'image/png'));
@@ -315,50 +427,113 @@ const baseName=()=>(S.title||'log').replace(/[\\/:*?"<>|]/g,'').trim().slice(0,4
 function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 const pad2=n=>String(n).padStart(2,'0');
 async function saveOne(i){download(await toBlob(await capture(i)),`${baseName()}_${pad2(i+1)}.png`)}
-async function saveAll(){
-  const btn=$('#saveAll');btn.disabled=true;
+let busy=false;
+async function saveAll(mode){
+  if(busy)return;busy=true;
+  const btns=[...document.querySelectorAll('[data-saveall]')];btns.forEach(b=>b.disabled=true);
+  const progress=m=>{btns.forEach(b=>{b.dataset.t??=b.textContent;b.textContent=m})};
   try{
-    if(PAGES.length===1){await saveOne(0)}
-    else{
+    if(mode==='zip'&&PAGES.length>1){
       const zip=new JSZip();
-      for(let i=0;i<PAGES.length;i++){btn.textContent=`만드는 중 ${i+1}/${PAGES.length}`;zip.file(`${baseName()}_${pad2(i+1)}.png`,await toBlob(await capture(i)))}
+      for(let i=0;i<PAGES.length;i++){progress(`만드는 중 ${i+1}/${PAGES.length}`);zip.file(`${baseName()}_${pad2(i+1)}.png`,await toBlob(await capture(i)))}
       download(await zip.generateAsync({type:'blob'}),`${baseName()}.zip`);
+    }else{
+      for(let i=0;i<PAGES.length;i++){
+        progress(`저장 중 ${i+1}/${PAGES.length}`);
+        download(await toBlob(await capture(i)),`${baseName()}_${pad2(i+1)}.png`);
+        await new Promise(r=>setTimeout(r,400));
+      }
+      if(PAGES.length>1)toast('브라우저가 "여러 파일 다운로드"를 물으면 허용해 주세요');
     }
-    toast('저장했어요');
+    if(mode==='zip'||PAGES.length===1)toast(`${PAGES.length}장 저장했어요`);
   }catch(e){console.error(e);toast('저장 중 오류가 났어요')}
-  finally{btn.disabled=false;btn.textContent='전체 저장'}
+  finally{busy=false;btns.forEach(b=>{b.disabled=false;if(b.dataset.t){b.textContent=b.dataset.t;delete b.dataset.t}})}
 }
+
+/* ---- 글꼴 ---- */
+function hasFont(n){
+  const c=document.createElement('canvas').getContext('2d'),t='가나다라마바사 한글 abcMW';
+  return ['monospace','serif','sans-serif'].some(b=>{c.font=`32px ${b}`;const w=c.measureText(t).width;c.font=`32px "${n}",${b}`;return c.measureText(t).width!==w});
+}
+let userFontLoaded=false;
+const idb=()=>new Promise((res,rej)=>{const r=indexedDB.open('logimg',1);r.onupgradeneeded=()=>r.result.createObjectStore('f');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+async function idbSet(k,v){const db=await idb();return new Promise((res,rej)=>{const t=db.transaction('f','readwrite');t.objectStore('f').put(v,k);t.oncomplete=res;t.onerror=()=>rej(t.error)})}
+async function idbGet(k){const db=await idb();return new Promise((res,rej)=>{const q=db.transaction('f').objectStore('f').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+async function useFontBuffer(buf){const ff=new FontFace('LogUserFont',buf);await ff.load();document.fonts.add(ff);userFontLoaded=true}
+function fontHint(){
+  const h=$('#fontHint');h.className='fhint ok';h.innerHTML='';
+  const lf=LOCAL_FONTS[S.font];
+  if(lf&&!lf.names.some(hasFont)){
+    h.className='fhint';
+    h.innerHTML=`이 기기에 ${lf.label} 글꼴이 설치돼 있지 않아 ${lf.fb}로 대신 보여요. <button class="linkbtn" data-pickfont>글꼴 파일 올리기</button>`;
+  }else if(lf){h.textContent=`이 기기에 설치된 ${lf.label}을 사용 중이에요.`}
+  else if(S.font===FONT_USER){
+    h.innerHTML=userFontLoaded?`올린 글꼴: ${esc(S.userFontName||'')} · <button class="linkbtn" data-pickfont>다른 파일</button>`
+      :`<button class="linkbtn" data-pickfont>글꼴 파일(.ttf / .otf) 고르기</button>`;
+  }
+}
+$('#fontFile').addEventListener('change',async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{
+    const buf=await f.arrayBuffer();await useFontBuffer(buf);
+    try{await idbSet('font',buf)}catch(_){}
+    S.font=FONT_USER;S.userFontName=f.name;save();syncInputs();render();toast('글꼴을 적용했어요');
+  }catch(err){toast('글꼴 파일을 읽지 못했어요')}
+  e.target.value='';
+});
+document.addEventListener('click',e=>{
+  if(e.target.matches('[data-pickfont]'))$('#fontFile').click();
+  if(e.target.dataset.saveall)saveAll(e.target.dataset.saveall);
+  if(e.target.dataset.align){S.align=e.target.dataset.align;syncInputs();save();schedule()}
+});
 async function copyOne(i){
   try{const b=await toBlob(await capture(i));await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('이미지를 복사했어요')}
   catch(e){toast('이 브라우저는 이미지 복사를 지원하지 않아요')}
 }
 
 /* ---- 입력 연결 ---- */
-let timer;const schedule=()=>{clearTimeout(timer);timer=setTimeout(render,120)};
+let timer;const schedule=()=>{clearTimeout(timer);timer=setTimeout(render,150)};
 function syncInputs(){
   document.querySelectorAll('[data-k]').forEach(el=>{const k=el.dataset.k;if(el.type==='checkbox')el.checked=!!S[k];else el.value=S[k]});
-  document.querySelectorAll('[data-v]').forEach(el=>el.textContent=S[el.dataset.v]);
+  document.querySelectorAll('[data-v]').forEach(el=>el.textContent=S[el.dataset.v]??0);
+  document.querySelectorAll('[data-align]').forEach(b=>b.classList.toggle('on',b.dataset.align===S.align));
+  fontHint();
 }
+function applyTheme(){const t=THEMES[S.theme];S.bg=t.bg;S.fg=t.fg;S.sub=t.sub;S.colors={}}
 document.querySelectorAll('[data-k]').forEach(el=>{
   el.addEventListener('input',()=>{
     const k=el.dataset.k;
     S[k]=el.type==='checkbox'?el.checked:(el.type==='number'||el.type==='range')?+el.value:el.value;
-    if(k==='theme'){const t=THEMES[S.theme];S.bg=t.bg;S.fg=t.fg;S.sub=t.sub;S.colors={}}
-    if(k==='width')S.width=Math.min(2000,Math.max(320,S.width||800));
+    if(k==='theme')applyTheme();
+    if(k==='width')S.width=Math.min(2400,Math.max(320,S.width||800));
+    if(k==='font'&&S.font===FONT_USER&&!userFontLoaded)$('#fontFile').click();
     syncInputs();save();schedule();
   });
 });
+$('#preset').addEventListener('change',e=>{
+  const p=PRESETS[e.target.value];if(!p)return;
+  Object.assign(S,p);applyTheme();
+  if(e.target.value==='chat'&&S.text===ESSAY_SAMPLE)S.text=CHAT_SAMPLE;
+  if(e.target.value!=='chat'&&S.text===CHAT_SAMPLE)S.text=ESSAY_SAMPLE;
+  e.target.value='';syncInputs();save();render();toast('프리셋을 적용했어요');
+});
+const WRAPS={fade:['((','))'],bold:['**','**'],strike:['~~','~~']};
+document.querySelectorAll('[data-wrap]').forEach(btn=>btn.addEventListener('click',()=>{
+  const ta=$('#ta'),[o,c]=WRAPS[btn.dataset.wrap],s=ta.selectionStart,e=ta.selectionEnd;
+  if(s===e){toast('먼저 바꿀 부분을 드래그해 주세요');return}
+  ta.setRangeText(o+ta.value.slice(s,e)+c,s,e,'end');ta.focus();ta.dispatchEvent(new Event('input'));
+}));
 $('#names').addEventListener('input',e=>{const n=e.target.dataset.name;if(n!=null){S.colors[n]=e.target.value;save();schedule()}});
 $('#preview').addEventListener('click',e=>{
   const s=e.target.dataset.save,c=e.target.dataset.copy;
   if(s!=null)saveOne(+s).catch(()=>toast('저장 중 오류가 났어요'));
   if(c!=null)copyOne(+c);
 });
-$('#saveAll').addEventListener('click',saveAll);
 $('#reset').addEventListener('click',()=>{if(confirm('모든 설정과 본문을 처음 상태로 되돌릴까요?')){S=JSON.parse(JSON.stringify(DEFAULTS));save();syncInputs();render()}});
 window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(drawPreview,100)});
 syncInputs();
-document.fonts.ready.then(render);render();
+idbGet('font').then(async buf=>{if(buf){await useFontBuffer(buf);syncInputs();render()}}).catch(()=>{});
+document.fonts.ready.then(()=>{fontHint();render()});render();
 </script>
 </body>
 </html>
